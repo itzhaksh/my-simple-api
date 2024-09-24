@@ -14,20 +14,31 @@
     <pre id="output"></pre>
 
     <script>
-        const dataStore = [];
+        const API_URL = 'https://itzhaksh.github.io/my-simple-api/'; 
 
-        function sendPost() {
+        async function sendPost() {
             const id = document.getElementById('id').value;
             const value = document.getElementById('value').value;
-            dataStore.push({ id, value });
-            alert('Data sent: ID: ' + id + ', VALUE: ' + value);
-            document.getElementById('id').value = '';
-            document.getElementById('value').value = '';
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ID: id, VALUE: value })
+            });
+
+            if (response.ok) {
+                alert('Data sent: ID: ' + id + ', VALUE: ' + value);
+                document.getElementById('id').value = '';
+                document.getElementById('value').value = '';
+            } else {
+                alert('Error sending data');
+            }
         }
 
         function fetchGet() {
-            const output = dataStore.map(data => `ID: ${data.id}, VALUE: ${data.value}`).join('\n');
-            document.getElementById('output').innerText = output || 'No data available';
+            alert('Fetch GET functionality not implemented yet.');
         }
     </script>
 </body>
