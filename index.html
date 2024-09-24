@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple API</title>
+</head>
+<body>
+    <h1>Simple API Example</h1>
+    <input type="text" id="id" placeholder="Enter ID" />
+    <input type="text" id="value" placeholder="Enter Value" />
+    <button onclick="sendPost()">Send POST</button>
+    <button onclick="fetchGet()">Fetch GET</button>
+    <pre id="output"></pre>
+
+    <script>
+        const dataStore = [];
+
+        function sendPost() {
+            const id = document.getElementById('id').value;
+            const value = document.getElementById('value').value;
+            dataStore.push({ id, value });
+            alert('Data sent: ID: ' + id + ', VALUE: ' + value);
+            document.getElementById('id').value = '';
+            document.getElementById('value').value = '';
+        }
+
+        function fetchGet() {
+            const output = dataStore.map(data => `ID: ${data.id}, VALUE: ${data.value}`).join('\n');
+            document.getElementById('output').innerText = output || 'No data available';
+        }
+    </script>
+</body>
+</html>
