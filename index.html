@@ -7,38 +7,52 @@
 </head>
 <body>
     <h1>Simple API Example</h1>
-    <input type="text" id="id" placeholder="Enter ID" />
-    <input type="text" id="value" placeholder="Enter Value" />
-    <button onclick="sendPost()">Send POST</button>
-    <button onclick="fetchGet()">Fetch GET</button>
+    <button onclick="fetchGet()">Fetch GET Messages</button>
+    <button onclick="sendPost()">Send POST Message</button>
+    <button onclick="deleteMessages()">Delete Messages</button>
     <pre id="output"></pre>
 
     <script>
-        const API_URL = 'https://itzhaksh.github.io/my-simple-api/'; 
+        const API_URL = 'https://itzhaksh.github.io/my-simple-api/api/messages'; 
 
         async function sendPost() {
-            const id = document.getElementById('id').value;
-            const value = document.getElementById('value').value;
+            const message = { message: 'Hello from ESP32!' }; // הודעה קבועה לשליחה
 
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ID: id, VALUE: value })
+                body: JSON.stringify(message)
             });
 
             if (response.ok) {
-                alert('Data sent: ID: ' + id + ', VALUE: ' + value);
-                document.getElementById('id').value = '';
-                document.getElementById('value').value = '';
+                alert('Message sent: ' + JSON.stringify(message));
             } else {
-                alert('Error sending data');
+                alert('Error sending message');
             }
         }
 
-        function fetchGet() {
-            alert('Fetch GET functionality not implemented yet.');
+        async function fetchGet() {
+            const response = await fetch(API_URL);
+            if (response.ok) {
+                const messages = await response.json();
+                document.getElementById('output').innerText = JSON.stringify(messages, null, 2);
+            } else {
+                alert('Error fetching messages');
+            }
+        }
+
+        async function deleteMessages() {
+            const response = await fetch(API_URL, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('Messages deleted');
+            } else {
+                alert('Error deleting messages');
+            }
         }
     </script>
 </body>
